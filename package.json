@@ -1,0 +1,10 @@
+{
+  "name": "",
+  "version": "",
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
