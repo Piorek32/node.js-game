@@ -1,5 +1,6 @@
     const buttons = [...document.querySelectorAll('button')];
     const gameBoard = document.querySelector('#gameBoard')
+    const boardTitel = document.querySelector('h1')
 const addAnswers = (data) => {
 
     const questBox = document.querySelector('#quest')
@@ -14,13 +15,25 @@ fetch('/quests', {
 }).then(res => res.json())
   .then(res =>  {
     if (res.winner) {
-       //wymazanie planszy z gra
+       handleCorrect()
 
     }  else {
     addAnswers(res)  
 }
   })
 }
+
+const handleCorrect = () => {
+    gameBoard.style.display = "none"
+    boardTitel.innerText = "Wygrana koniec gry"
+}
+const handleWrong = () => {
+    gameBoard.style.display = "none"
+    boardTitel.innerText = "Zła odpowiedz koniec gry"
+
+}
+
+
 showNextQuest()
 const sendAnswers = (answerIndex) => {
 
@@ -30,7 +43,9 @@ const sendAnswers = (answerIndex) => {
         .then(res =>  {
         if (res.correct) {
             showNextQuest()
-        }     
+        }   else {
+                handleWrong()
+        }  
         })
 }
 
