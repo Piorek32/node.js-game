@@ -3,12 +3,13 @@
     const boardTitel = document.querySelector('h1')
     const tipContent = document.querySelector('.tipContent')
     const callToAFriendBtn = document.querySelector('#callToAFriend')
+    const halfOnHalfBtn = document.querySelector('#halfOnHalf')
 const addAnswers = (data) => {
 
     const questBox = document.querySelector('#quest')
-    questBox.innerText = data.quest;
+    questBox.innerText = data.quest.quest;
     buttons.forEach((val, i ) => {
-        val.innerText = data.answers[i]
+        val.innerText = data.quest.answers[i]
     })
  }
 const showNextQuest = () => {
@@ -78,6 +79,24 @@ const callToAFriend = () => {
       
     }
 
+    const halfObHalf = () => {
+        fetch('/help/half', {
+            method : "GEt"
+        }).then(res => res.json())
+          .then(res =>  handelHalf(res) )
+          
+        }
+
+        const handelHalf = (data) => {
+            console.log(data)
+            buttons.forEach(val => {
+                if (val.innerText !== data.badAnswer && val.innerText !== data.goodAnswer) {
+                        val.style.display = "none"
+                }
+            })
+            
+            
+        }        
 
 const handelCallToAFriend = (data) => {
     tipContent.innerText = data.goodAnswer;
@@ -86,3 +105,4 @@ const handelCallToAFriend = (data) => {
 
 
 callToAFriendBtn.addEventListener('click', callToAFriend)
+halfOnHalfBtn.addEventListener('click', halfObHalf)

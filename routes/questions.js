@@ -40,7 +40,9 @@ app.get('/quests', (req, res) => {
     }
     else {
     let quest = quests[goodAnswers]
-     res.json(quest)
+     res.json({
+         quest, 
+         questsNumber : quests.length})
     }
 })
 
@@ -71,6 +73,19 @@ app.get('/help/friend', (req, res) => {
     let goodAnswer = quest.answers[quest.answer]
         res.json({
             goodAnswer
+        })   
+        })
+
+
+app.get('/help/half', (req, res) => {
+    let quest = quests[goodAnswers]
+    let goodAnswer = quest.answers[quest.answer]
+    let badAnswersTab = quest.answers.filter(val => {
+        return val !== goodAnswer
+    })
+     let badAnswer = badAnswersTab[Math.floor(Math.random() * 3)]
+        res.json({
+            badAnswer, goodAnswer
         })   
         })
 }
