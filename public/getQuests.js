@@ -1,6 +1,8 @@
-    const buttons = [...document.querySelectorAll('button')];
+    const buttons = [...document.querySelectorAll('.answerBtn')];
     const gameBoard = document.querySelector('#gameBoard')
     const boardTitel = document.querySelector('h1')
+    const tipContent = document.querySelector('.tipContent')
+    const callToAFriendBtn = document.querySelector('#callToAFriend')
 const addAnswers = (data) => {
 
     const questBox = document.querySelector('#quest')
@@ -10,6 +12,7 @@ const addAnswers = (data) => {
     })
  }
 const showNextQuest = () => {
+    tipContent.innerText = "";
 fetch('/quests', {
     method : "GEt"
 }).then(res => res.json())
@@ -23,15 +26,7 @@ fetch('/quests', {
   })
 }
 
-const handleCorrect = () => {
-    gameBoard.style.display = "none"
-    boardTitel.innerText = "Wygrana koniec gry"
-}
-const handleWrong = () => {
-    gameBoard.style.display = "none"
-    boardTitel.innerText = "Zła odpowiedz koniec gry"
 
-}
 
 
 showNextQuest()
@@ -51,7 +46,6 @@ const sendAnswers = (answerIndex) => {
 
 
 
-
 for ( let val of buttons) {
     val.addEventListener('click', function() {
         console.log(buttons)
@@ -65,3 +59,30 @@ for ( let val of buttons) {
         sendAnswers(answerIndex)
     })
 }
+
+
+const handleCorrect = () => {
+    gameBoard.style.display = "none"
+    boardTitel.innerText = "Wygrana koniec gry"
+}
+const handleWrong = () => {
+    gameBoard.style.display = "none"
+    boardTitel.innerText = "Zła odpowiedz koniec gry"
+
+}
+const callToAFriend = () => {
+    fetch('/help/friend', {
+        method : "GEt"
+    }).then(res => res.json())
+      .then(res =>  handelCallToAFriend(res) )
+      
+    }
+
+
+const handelCallToAFriend = (data) => {
+    tipContent.innerText = data.goodAnswer;
+    callToAFriendBtn.classList.add('disableHelpBtn')
+}
+
+
+callToAFriendBtn.addEventListener('click', callToAFriend)

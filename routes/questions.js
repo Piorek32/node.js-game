@@ -1,6 +1,13 @@
 const getQuest = (app) => {
     let isGameOver = false;
     let goodAnswers = 0;
+    let callToAFriend = false;
+    let questionToTheCrowd = false;
+    let halfOnHalf = false;
+
+
+
+
     let quests = [
     {
         quest : "najlepszy jerzyk programowania",
@@ -58,6 +65,14 @@ app.post('/answer/:index', (req, res)=> {
     }) 
   }
 })
+
+app.get('/help/friend', (req, res) => {
+    let quest = quests[goodAnswers]
+    let goodAnswer = quest.answers[quest.answer]
+        res.json({
+            goodAnswer
+        })   
+        })
 }
 
 module.exports = getQuest;
