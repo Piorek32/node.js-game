@@ -88,6 +88,21 @@ app.get('/help/half', (req, res) => {
             badAnswer, goodAnswer
         })   
         })
+
+app.get('/help/crowd', (req, res) => {
+    let charts = [10, 20, 30, 40 ]
+    for ( let i = charts.length -1; i>0; i--) {
+
+ let channge = Math.floor(Math.random()  * 20 -10)
+ charts[i] += channge;
+ charts[i -1]-= channge;
+       
+    }
+        res.json({
+            charts
+        })   
+        })
+
 }
 
 module.exports = getQuest;

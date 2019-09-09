@@ -4,6 +4,7 @@
     const tipContent = document.querySelector('.tipContent')
     const callToAFriendBtn = document.querySelector('#callToAFriend')
     const halfOnHalfBtn = document.querySelector('#halfOnHalf')
+    const crowdBtn = document.querySelector('#questionToTheCrowd')
 const addAnswers = (data) => {
 
     const questBox = document.querySelector('#quest')
@@ -19,16 +20,12 @@ fetch('/quests', {
 }).then(res => res.json())
   .then(res =>  {
     if (res.winner) {
-       handleCorrect()
-
+       handleWinnerGame()
     }  else {
     addAnswers(res)  
 }
   })
 }
-
-
-
 
 showNextQuest()
 const sendAnswers = (answerIndex) => {
@@ -62,7 +59,7 @@ for ( let val of buttons) {
 }
 
 
-const handleCorrect = () => {
+const handleWinnerGame = () => {
     gameBoard.style.display = "none"
     boardTitel.innerText = "Wygrana koniec gry"
 }
@@ -78,31 +75,43 @@ const callToAFriend = () => {
       .then(res =>  handelCallToAFriend(res) )
       
     }
+            
+const handelCallToAFriend = (data) => {
+    tipContent.innerText = data.goodAnswer;
+    callToAFriendBtn.classList.add('disableHelpBtn')
+}
 
     const halfObHalf = () => {
         fetch('/help/half', {
             method : "GEt"
         }).then(res => res.json())
           .then(res =>  handelHalf(res) )
-          
         }
 
         const handelHalf = (data) => {
-            console.log(data)
             buttons.forEach(val => {
                 if (val.innerText !== data.badAnswer && val.innerText !== data.goodAnswer) {
                         val.style.display = "none"
                 }
             })
-            
-            
-        }        
+        }
+        
 
-const handelCallToAFriend = (data) => {
-    tipContent.innerText = data.goodAnswer;
-    callToAFriendBtn.classList.add('disableHelpBtn')
-}
+        const crowd = () => {
+            fetch('/help/crowd', {
+                method : "GEt"
+            }).then(res => res.json())
+              .then(res =>  handleCrowd(res) )
+              
+            }
+            const handleCrowd = (data) => {
+                console.log(data)
+            }
+            
+    
+
 
 
 callToAFriendBtn.addEventListener('click', callToAFriend)
 halfOnHalfBtn.addEventListener('click', halfObHalf)
+crowdBtn.addEventListener('click', crowd)
